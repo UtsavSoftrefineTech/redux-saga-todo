@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import TodoList from "./components/TodoList";
+import TodoForm from "./components/TodoForm";
 
-function App() {
+const App = () => {
+  const todos = useSelector((state) => state.todos.todos);
+  const dispatch = useDispatch();
+
+  const handleAddTodo = (todo) => {
+    dispatch({ type: "ADD_TODO_REQUEST", payload: todo });
+  };
+
+  const handleRemoveTodo = (id) => {
+    dispatch({ type: "REMOVE_TODO_REQUEST", payload: id });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-screen w-screen bg-slate-400 text-center py-8">
+      <h1 className="text-3xl font-semiblod">Redux Saga Todo List</h1>
+      <TodoForm onAddTodo={handleAddTodo} />
+      <TodoList todos={todos} onRemoveTodo={handleRemoveTodo} />
     </div>
   );
-}
+};
 
 export default App;
